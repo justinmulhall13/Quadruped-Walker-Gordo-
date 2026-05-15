@@ -8,7 +8,7 @@ A 4-legged walking robot controlled over WiFi via a browser-based interface. Bui
 |---|---|
 | Microcontroller | ESP32-S3 Freenove + Breakout Board |
 | Servo Driver | PCA9685 PWM Board (I2C) |
-| Servos | 8x MG996R (2 per leg) |
+| Servos | 8x DS3218 (2 per leg) |
 | Battery | 2S 7.4V 2000mAh Li-ion (XT30) |
 | Power Regulation | XL4015 Buck Converter |
 | CAD | Onshape |
