@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quadruped Controller</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #111; color: #fff; padding: 20px; }
+    button { width: 80px; height: 80px; margin: 8px; font-size: 24px; border: none; border-radius: 12px; background: #333; color: #fff; cursor: pointer; }
+    button:active { background: #555; }
+    .row { display: flex; justify-content: center; }
+  </style>
+</head>
+<body>
+  <h2>Quadruped</h2>
+  <div class="row"><button onclick="send('forward')">&#8593;</button></div>
+  <div class="row">
+    <button onclick="send('left')">&#8592;</button>
+    <button onclick="send('stop')">&#9632;</button>
+    <button onclick="send('right')">&#8594;</button>
+  </div>
+  <div class="row"><button onclick="send('backward')">&#8595;</button></div>
+  <br>
+  <div class="row">
+    <button onclick="send('stand')" style="width:120px;font-size:14px;">Stand</button>
+    <button onclick="send('sit')" style="width:120px;font-size:14px;">Sit</button>
+  </div>
+  <script>
+    function send(cmd) {
+      fetch('/move?cmd=' + cmd).catch(console.error);
+    }
+  </script>
+</body>
+</html>
