@@ -4,5 +4,5 @@
 
 ## Assembly Notes
 - 4 legs, 2 DOF each
-- 8x MG996R servo mounts
+- 8x DS3218 servo mounts
 - Chassis designed to house ESP32-S3 Freenove and PCA9685 board
