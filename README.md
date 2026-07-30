@@ -6,6 +6,36 @@ A personal summer project: a fully custom quadruped walking robot with WiFi-base
 
 ---
 
+## It Walks — First Untethered Gait (Prototype)
+
+**Status: very rough prototype. The gait is still being tuned and the feet are still being designed.**
+
+![Gordo walking — rough gait prototype](media/gordo_walk_prototype.gif)
+
+Full clip: [media/gordo_walk_prototype.mp4](media/gordo_walk_prototype.mp4)
+
+First run walking under its own power on carpet. It moves, and that is about all that can be
+claimed for it right now — the motion is a slow shuffle rather than a clean trot.
+
+What is visibly wrong, and what is being worked on:
+
+- **Gait timing** — swing and stance phases are not cleanly separated, so multiple legs are
+  loaded at once and the body drags instead of stepping. Trot phasing (FL+RR / FR+RL) is being
+  re-tuned rather than treated as done.
+- **Stride and lift height** — swing legs are not clearing the carpet by enough, so they scuff
+  through the stroke and scrub away most of the forward travel.
+- **Feet** — the legs currently end in bare flat printed shanks with no foot at all. On carpet
+  they slide badly and there is no contact compliance. Actively experimenting here: rubber
+  tips, domed/ball feet, and a compliant (springy) foot are all on the bench to be tried.
+- **Body attitude** — the chassis pitches and yaws through the stroke instead of holding level,
+  which is partly gait timing and partly no ground-contact feedback.
+
+Everything above is expected at this stage. The point of this run was to prove the full chain —
+battery → buck → PCA9685 → 8 servos → gait loop — actually drives the robot across the floor.
+Gait quality comes next.
+
+---
+
 ## Current Status
 
 - [x] CAD complete (Onshape)
@@ -14,11 +44,17 @@ A personal summer project: a fully custom quadruped walking robot with WiFi-base
 - [x] All 8 servos calibrated and tested
 - [x] Wiring schematic complete (KiCad)
 - [x] WiFi web controller built
-- [ ] Power supply wiring (parts incoming)
-- [ ] Firmware — PCA9685 init and servo sweep
+- [x] Power supply wiring — running untethered off the 2S LiPo
+- [x] Firmware — PCA9685 init and servo sweep
+- [x] **First walking prototype — moves under its own power (rough)**
+- [ ] Firmware — trot gait engine (prototyping; timing and stride still being tuned)
+- [ ] Feet — design and test (currently bare printed leg ends, slipping on carpet)
 - [ ] Firmware — inverse kinematics
-- [ ] Firmware — trot gait engine
 - [ ] Firmware — web controller integration
+
+> Note: the gait code driving the clip above is still bench-iteration and has not been
+> committed yet. `firmware/gait/` still holds the earlier skeleton and will be replaced once
+> the timing is worth keeping.
 
 ---
 
@@ -79,7 +115,7 @@ Full schematic: [hardware/Gordo-Wiring.pdf](hardware/Gordo-Wiring.pdf)
 
 ### File Structure
 
-\`\`\`
+```
 firmware/
 ├── main.ino        — setup, loop, WiFi AP, web server routes
 ├── gait.h          — gait function declarations
@@ -88,7 +124,10 @@ hardware/
 └── Gordo-Wiring.pdf — KiCad wiring schematic
 images/
 └── build_photo.png  — assembled robot photo
-\`\`\`
+media/
+├── gordo_walk_prototype.gif — walking prototype, inline preview
+└── gordo_walk_prototype.mp4 — walking prototype, full clip
+```
 
 ---
 
