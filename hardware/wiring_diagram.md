@@ -6,11 +6,6 @@
 - Servo rail (PCA9685 V+) is fed from the breakout's 5V pin
 - 2200uF electrolytic across PCA9685 V+ and GND
 
-> The servo rail is undersized: all 8 DS3218 draw through the breakout's onboard regulator,
-> which is a logic supply, not a servo bus. This limits torque and is the leading suspect for
-> the weak walking gait. Planned fix is a dedicated BEC or buck for the servo rail, rated for
-> DS3218 stall current, with the ESP32 on its own feed and grounds common.
-
 ## I2C (ESP32-S3 to PCA9685)
 | ESP32-S3 Pin | PCA9685 Pin |
 |---|---|
@@ -32,6 +27,6 @@
 | 7 | Knee | Rear Right |
 
 ## Notes
-- Servo power (V+) currently comes from the breakout's 5V pin — this is the thing to change
+- Servo power (V+) comes from the breakout's 5V pin, NOT from an ESP32 GPIO
 - Common ground between ESP32, PCA9685, and servo rail
 - No fuse or disconnect in the battery splice yet

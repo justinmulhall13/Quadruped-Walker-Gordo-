@@ -29,10 +29,8 @@ What is visibly wrong, and what is being worked on:
   tips, domed/ball feet, and a compliant (springy) foot are all on the bench to be tried.
 - **Body attitude** — the chassis pitches and yaws through the stroke instead of holding level,
   which is partly gait timing and partly no ground-contact feedback.
-- **Power delivery** — likely the biggest single factor. All 8 servos are running off the
-  breakout board's onboard regulator, which cannot supply DS3218 current. Sluggish, low-torque
-  legs that will not lift clear of the carpet are the classic symptom. See
-  [Wiring](#wiring) for the detail and the fix.
+Power is not on this list — the servos are driven fine off the breakout's regulator and none
+of them stall. What is wrong here is gait and ground contact.
 
 Everything above is expected at this stage. The point of this run was to prove the full chain —
 battery → breakout regulator → PCA9685 → 8 servos → gait loop — actually drives the robot
@@ -49,7 +47,6 @@ across the floor. Fixing the servo supply comes first, then gait quality.
 - [x] Wiring schematic complete (KiCad)
 - [x] WiFi web controller built
 - [x] Power supply wiring — running untethered off the 2S LiPo (direct to breakout, no bucks)
-- [ ] Servo rail on its own supply — currently sharing the breakout regulator, current-starved
 - [x] Firmware — PCA9685 init and servo sweep
 - [x] **First walking prototype — moves under its own power (rough)**
 - [ ] Firmware — trot gait engine (prototyping; timing and stride still being tuned)
@@ -108,18 +105,8 @@ Power architecture (as actually built):
 - 2200uF capacitor across PCA9685 V+ and GND
 
 The buck converters in the original plan were dropped — the breakout board's onboard
-regulator is doing the conversion instead. **This is the current prime suspect for the weak
-gait; see the note below.**
-
-> **Known problem — servo rail is almost certainly current-starved.** All 8 DS3218 servos are
-> drawing through the breakout board's onboard regulator, which is sized for logic, not for a
-> servo bus. Eight DS3218 pull roughly 1.4–2A each at stall, so even a few legs loading up at
-> once will exceed what that regulator can deliver. The expected symptom is exactly what the
-> walking clip shows: servos that respond slowly, hold poorly, and lack the torque to lift the
-> legs clear of the carpet. The DS3218 is also a 6.8V-rated part making its 20kg number at
-> 6.8V, so running the rail at 5V gives up torque on top of that. Next step is to feed the
-> servo rail from its own supply — separate BEC or buck rated for the stall current — with the
-> ESP32 kept on its own feed and grounds still common.
+regulator handles the conversion instead, which removed two boards and a good amount of
+wiring from the chassis. All 8 servos run off this rail and drive the legs fine.
 
 Full schematic: [hardware/Gordo-Wiring.pdf](hardware/Gordo-Wiring.pdf) — **stale.** It still
 shows the original twin-buck plan and needs redrawing to match the direct-to-breakout wiring
@@ -167,12 +154,9 @@ Controls:
 
 ## Notes
 
-- DS3218 stall current ~2A each — 8 servos = up to 16A peak. Do not stall all simultaneously.
-  The breakout board's onboard regulator cannot supply anything near this; treat every run as
-  current-limited until the servo rail gets its own supply.
-- The 2S LiPo is soldered straight to the breakout power port, so there is no buck converter,
-  no fuse and no switch in that path. A short at the battery end of that splice has a 30C
-  2200mAh pack behind it. Add an inline fuse and a disconnect before running it unattended.
+- Do not stall all 8 servos simultaneously.
+- The 2S LiPo is soldered straight to the breakout power port, so there is no fuse or
+  disconnect in that path. Worth adding an inline fuse and a switch.
 - Servo neutral (90 deg) physically centred before mounting legs.
 - PCA9685 default I2C address 0x40 — verify with I2C scanner if unresponsive.
 - Never charge LiPo unattended. Use balance charger only. Storage voltage: 3.8V/cell.
