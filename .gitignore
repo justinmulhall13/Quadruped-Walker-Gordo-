@@ -1,0 +1,14 @@
+# arduino-cli build output
+build/
+*.elf
+*.bin
+*.map
+
+# local backups
+*.bak
+
+# stray zero-byte file from a mistyped command
+/arduino-cli
+
+# local Claude Code settings
+.claude/
