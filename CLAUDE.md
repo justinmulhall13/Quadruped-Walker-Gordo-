@@ -21,10 +21,10 @@ ESP32-S3 quadruped robot with 8 DS3218 servos controlled via PCA9685 PWM driver.
 
 ```bash
 # Compile
-arduino-cli compile --fqbn esp32:esp32:esp32s3 quadruped
+arduino-cli compile --fqbn esp32:esp32:esp32s3 firmware/servo_tuner
 
 # Upload
-arduino-cli upload -p COM4 --fqbn esp32:esp32:esp32s3 quadruped
+arduino-cli upload -p COM4 --fqbn esp32:esp32:esp32s3 firmware/servo_tuner
 
 # Serial monitor (115200 baud)
 arduino-cli monitor -p COM4 --config baudrate=115200
