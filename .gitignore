@@ -12,3 +12,8 @@ build/
 
 # local Claude Code settings
 .claude/
+
+# operating-system and editor files
+.DS_Store
+*.lck
+*.tmp

@@ -1,22 +1,26 @@
-# Build Notes
+# Final Build & Operating Notes
 
 ## Servo Calibration
-- Use a servo tester or sweep sketch to find min/max pulse widths for your DS3218 batch
-- Neutral (90 deg) should be physically centered before mounting legs
+- The eight DS3218 servos are centered at neutral before the legs are mounted.
+- The operating pulse range is calibrated to the installed servo batch and mechanical limits.
 
 ## PCA9685 I2C Address
-- Default is 0x40, verify with I2C scanner sketch if it does not respond
+- The servo driver uses the default `0x40` address.
+- I2C uses GPIO 8 (SDA) and GPIO 9 (SCL).
 
-## Power (no buck converters)
-- The buck converters were skipped. The 2S LiPo is spliced and soldered straight to the power
-  port on the Freenove breakout board, which converts on-board.
-- Servo rail (PCA9685 V+) is fed from the breakout's 5V pin. All 8 servos drive the legs fine
-  off this rail.
-- Dropping the bucks took two boards and a lot of wiring out of the chassis.
-- Avoid stalling all 8 servos at once.
-- The battery splice has no fuse or disconnect in it yet — worth adding.
+## Power Architecture
+- The 2S LiPo is spliced and soldered directly to the Freenove breakout power port.
+- The breakout board performs the onboard voltage conversion.
+- The breakout's 5 V pin feeds the PCA9685 servo rail.
+- A 2200 µF capacitor is installed across PCA9685 V+ and ground.
+- All eight servos operate from this rail; avoid driving them against mechanical stops.
 
 ## WiFi
-- Robot creates its own access point
-- Connect phone or laptop to the "QuadrupedTuner" network (password 12345678)
-- Open browser to 192.168.4.1
+- Gordo creates the `QuadrupedTuner` access point.
+- Connect a phone or laptop with the password `12345678`.
+- Open `http://192.168.4.1` in a browser.
+
+## Battery Care
+- Charge only through the JST-XH balance connector with the B3 balance charger.
+- Never charge unattended.
+- Stop use at 7.0 V total pack voltage and store at 3.8 V per cell.
